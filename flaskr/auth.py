@@ -16,6 +16,7 @@ def register():
         username = request.form['username']
         password = request.form['password']
         db = get_db()
+        cur = db.cursor()
         error = None
 
         if not username:
@@ -25,8 +26,8 @@ def register():
 
         if error is None:
             try:
-                db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
+                cur.execute(
+                    "INSERT INTO users (username, password) VALUES (%s, %s)",
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
@@ -36,6 +37,7 @@ def register():
                 return redirect(url_for("auth.login"))
 
         flash(error)
+        cur.close()
 
     return render_template('auth/register.html')
 
@@ -47,10 +49,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
         db = get_db()
+        cur= db.cursor()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        cur.execute(
+            'SELECT * FROM users WHERE username = %s', (username,)
+        )
+        user = cur.fetchone()
 
         if user is None:
             error = 'Incorrect username.'
@@ -63,6 +67,7 @@ def login():
             return redirect(url_for('index'))
 
         flash(error)
+        cur.close()
 
     return render_template('auth/login.html')
 
@@ -74,9 +79,11 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        cur=get_db().cursor()
+        cur.execute(
+            'SELECT * FROM users WHERE id = %s', (user_id,)
+        )
+        g.user=cur.fetchone()
 
 
 @bp.route('/logout')

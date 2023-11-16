@@ -11,11 +11,14 @@ bp = Blueprint('blog', __name__)
 @bp.route('/')
 def index():
     db = get_db()
-    posts = db.execute(
+    cur = db.cursor()
+    cur.execute(
         'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' FROM post p JOIN users u ON p.author_id = u.id'
         ' ORDER BY created DESC'
-    ).fetchall()
+    )
+    posts= cur.fetchall()
+    cur.close()
     return render_template('blog/index.html', posts=posts)
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -33,23 +36,28 @@ def create():
             flash(error)
         else:
             db = get_db()
-            db.execute(
+            cur = db.cursor()
+            cur.execute(
                 'INSERT INTO post (title, body, author_id)'
-                ' VALUES (?, ?, ?)',
+                ' VALUES (%s, %s, %s)',
                 (title, body, g.user['id'])
             )
             db.commit()
+            cur.close()
             return redirect(url_for('blog.index'))
 
     return render_template('blog/create.html')
 
 def get_post(id, check_author=True):
-    post = get_db().execute(
+    cur= get_db().cursor()
+    cur.execute(
         'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' WHERE p.id = ?',
+        ' FROM post p JOIN users u ON p.author_id = u.id'
+        ' WHERE p.id = %s',
         (id,)
-    ).fetchone()
+    )
+    post = cur.fetchone()
+    cur.close()
 
     if post is None:
         abort(404, f"Post id {id} doesn't exist.")
@@ -78,11 +86,13 @@ def update(id):
             flash(error)
         else:
             db = get_db()
-            db.execute(
-                'UPDATE post SET title = ?, body = ?'
-                ' WHERE id = ?',
+            cur = db.cursor()
+            cur.execute(
+                'UPDATE post SET title = %s, body = %s'
+                ' WHERE id = %s',
                 (title, body, id)
             )
+            cur.close()
             db.commit()
             return redirect(url_for('blog.index'))
 
@@ -94,6 +104,8 @@ def update(id):
 def delete(id):
     get_post(id)
     db = get_db()
-    db.execute('DELETE FROM post WHERE id = ?', (id,))
+    cur= db.cursor()
+    cur.execute('DELETE FROM post WHERE id = %s', (id,))
     db.commit()
+    cur.close()
     return redirect(url_for('blog.index'))
