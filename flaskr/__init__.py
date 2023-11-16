@@ -6,7 +6,7 @@ def create_app(test_config=None):
     app= Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY="dev",
-        DB_URL = "dbname=postgres user=postgres password=Test1234 host=192.168.0.3"
+        DB_URL = "dbname=postgres user=postgres password=Test1234 host=34.78.196.208"
     )
 
     if test_config is None:
