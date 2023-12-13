@@ -1,9 +1,11 @@
 from flask import Flask,request, jsonify
+from flask_cors import CORS
 import os
 
 
 def create_app(test_config=None):
     app= Flask(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_mapping(
         SECRET_KEY="dev",
         DB_URL = "dbname=postgres user=postgres password=Test1234 host=34.78.196.208" #local ip: 192.168.0.3
