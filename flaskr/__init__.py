@@ -1,11 +1,9 @@
 from flask import Flask,request, jsonify
-from flask_cors import CORS
 import os
 
 
 def create_app(test_config=None):
-    app= Flask(__name__, instance_relative_config=True)
-    CORS(app)
+    app= Flask(__name__, instance_relative_config=True) 
     app.config.from_mapping(
         SECRET_KEY="dev",
         DB_URL = "dbname=postgres user=postgres password=Test1234 host=34.78.196.208" #local ip: 192.168.0.3
@@ -21,6 +19,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    @app.after_request
+    def add_headers(response):
+        """ Adding some global properties to all response headers """
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Requested-With"
+        return response
+
     @app.route("/hello")
     def hello():
         return "Hello, World"
@@ -34,13 +40,7 @@ def create_app(test_config=None):
        except Exception as e:
            return jsonify({"Hallo":"Ne leider nicht"}),400
 
-    @app.after_request
-    def add_headers(response):
-        """ Adding some global properties to all response headers """
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        response.headers['Content-Type'] = 'application/json'
-        response.headers['Cache-Control'] = 'no-store'
-        return response
+   
 
     from . import db
     db.init_app(app)
