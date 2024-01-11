@@ -41,6 +41,37 @@ def register():
 
     return render_template('auth/register.html')
 
+@bp.route("/login1", methods=["POST"])
+def login1():
+    try:
+        login_data = request.get_json()
+        username = login_data["username"]
+        password = login_data["password"]   
+        db = get_db()
+        cur= db.cursor()
+        error = None 
+        cur.execute(
+            'SELECT * FROM users WHERE username = %s', (username,)
+        )
+        user = cur.fetchone()
+        if user is None:
+            error = 'Incorrect username.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+        if error is None:           
+            session.clear()
+            session['user_id'] = user['id']
+            return ("Klappt",200)
+        else:
+            return("NENE",200)
+
+    except: 
+        return 400
+
+
+
+
+
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -96,6 +127,16 @@ def login_required(view):
     def wrapped_view(**kwargs):
         if g.user is None:
             return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+def login_required1(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):    
+        if 'user_id' not in session:
+            return "please login"
 
         return view(**kwargs)
 

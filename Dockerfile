@@ -8,9 +8,9 @@ RUN pip install -r requirements.txt
 WORKDIR /app
 COPY . .
 
-ENV FLASK_APP=flaskr
+ENV FLASK_APP=app
 
 EXPOSE 80
 
-CMD waitress-serve --port 80 --host 0.0.0.0 --call flaskr:create_app
+CMD waitress-serve --port 80 --host 0.0.0.0 --call app:create_app
 

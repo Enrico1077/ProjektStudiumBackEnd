@@ -3,7 +3,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from flaskr.auth import login_required
+from flaskr.auth import login_required, login_required1
 from flaskr.db import get_db
 
 bp = Blueprint('blog', __name__)
@@ -109,3 +109,8 @@ def delete(id):
     db.commit()
     cur.close()
     return redirect(url_for('blog.index'))
+
+@bp.route ('/shielded', methods=["POST"])
+@login_required1
+def shielded():
+    return("Wilkommen",200)
