@@ -48,12 +48,7 @@ def create_app(test_config=None):
 
     @login_manger.user_loader
     def load_user(user_id):
-        return auth.User.get(user_id)
-
-    @app.route('/test', methods=['POST'])
-    @login_required
-    def privateTest():
-        return (jsonify({'message':'You are singed in'}),201)
+        return auth.User.getName(user_id)
 
 
     return app

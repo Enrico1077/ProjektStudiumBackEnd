@@ -10,6 +10,12 @@ class User(UserMixin):
     def __init__(self, id, username):
         self.id = id
         self.username = username
+    def getName(user_id):
+        db = get_db()
+        cur = db.cursor()
+        cur.execute('SELECT username FROM users WHERE id = %s', (user_id,))
+        username = cur.fetchone()[0]
+        return User(user_id, username)
     
 
 
