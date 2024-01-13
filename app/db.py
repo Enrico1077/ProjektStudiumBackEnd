@@ -17,7 +17,7 @@ def close_db(e=None):
 def init_db():
     db = get_db()
  
-    with current_app.open_resource("psqlSchema.sql") as f:
+    with current_app.open_resource("schema.sql") as f:
         sql_statements = f.read().decode("utf8").split(';')
         sql_statements = [statement.strip() for statement in sql_statements if statement.strip()]
         sqlcur=db.cursor()
