@@ -45,11 +45,12 @@ def UploadData():
             error = 'The user has no access to the Machine-ID'
         else:
             cur.execute(                #Der SQL-Zugriff muss noch auf die Datenbank abgestimmt werden 
-                "INSERT INTO Maschinen (Maschinendata1, Maschinendata2,) VALUES (%s, %s)",
-                (data['Maschinedata1'], data['Maschinedata2']),
+                "INSERT INTO Maschinendaten (Maschine_ID, Daten,) VALUES (%s, %s)",
+                (maschineId, data['Hedelius_App']),
             )
             db.commit()
 
+    cur.close()
     if error is None:
         return jsonify({'message':'Machine data successfully inserted'}),200
     else:
@@ -105,6 +106,7 @@ def ConnectMaschine():
             (user['id'], maschineId)
             )           
         db.commit()
+    cur.close()
 
     #Ausgabe
     if error is None:
@@ -153,6 +155,7 @@ def NewMaschine():
             (maschineID, maschineName, maschineTyp)
             )           
         db.commit()
+    cur.close()
 
      #Ausgabe
     if error is None:

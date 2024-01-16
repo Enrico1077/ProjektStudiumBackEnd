@@ -22,8 +22,9 @@ CREATE TABLE Maschinen (
 
 --Erstellung der Tabelle 'Maschinendaten' (Hier werden die Daten der Maschine Abhängig der ID gespeichert)
 CREATE TABLE Maschinendaten (
-  Maschinen_ID INTEGER PRIMARY KEY
-  -- Hier kommen die weiteren Daten hin, die abgespeichert werden sollen - Spalten werden dynamisch erzeugt
+  MaschineData_ID SERIAL PRIMARY KEY
+  Maschinen_ID INTEGER,
+  Daten JSON
 );
 
 -- Erstellung der Tabelle 'BenutzerMaschinen'
