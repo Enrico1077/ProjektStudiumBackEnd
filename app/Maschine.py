@@ -14,9 +14,10 @@ def UploadData():
         username = data['username']
         password = data['password']
         maschineId = data['maschineID']      
-    except:
-        return jsonify({'error': 'Missing Username or Password or MaschineID'}), 400 
-    
+    except KeyError as e:
+        missing_key = e.args[0]
+        return jsonify({'error': f'Missing {missing_key}'}), 400
+        
     #Vorbereiten der Datenbank
     db = get_db()
     cur= db.cursor()
@@ -44,11 +45,15 @@ def UploadData():
         if curMaschine is None:
             error = 'The user has no access to the Machine-ID'
         else:
-            cur.execute(                #Der SQL-Zugriff muss noch auf die Datenbank abgestimmt werden 
-                "INSERT INTO Maschinendaten (Maschine_ID, Daten,) VALUES (%s, %s)",
-                (maschineId, data['Hedelius_App']),
-            )
-            db.commit()
+            try:               
+                cur.execute(                #Der SQL-Zugriff muss noch auf die Datenbank abgestimmt werden 
+                    "INSERT INTO Maschinendaten (Maschine_ID, Daten,) VALUES (%s, %s)",
+                    (maschineId, data['Hedelius_App']),
+                )
+                db.commit()
+            except Exception as e:
+                error = e
+                
 
     cur.close()
     if error is None:
@@ -68,8 +73,9 @@ def ConnectMaschine():
         maschineId = data['maschineID'] 
         username = data['username']
 
-    except:
-        return jsonify({'error': 'Missing Username or Password or MaschineID'}), 400 
+    except KeyError as e:
+        missing_key = e.args[0]
+        return jsonify({'error': f'Missing {missing_key}'}), 400
     
     if not adminname == current_app.config['ADMIN_NAME'] :
         return jsonify({'error': 'Adminname is wrong'}), 400 
@@ -126,8 +132,9 @@ def NewMaschine():
         maschineName = data['maschinename']
         maschineTyp = data['maschinetyp']
 
-    except:
-        return jsonify({'error': 'Missing Username or Password or MaschineParameters'}), 400 
+    except KeyError as e:
+        missing_key = e.args[0]
+        return jsonify({'error': f'Missing {missing_key}'}), 400 
     
     if not adminname == current_app.config['ADMIN_NAME'] :
         return jsonify({'error': 'Adminname is wrong'}), 400 
