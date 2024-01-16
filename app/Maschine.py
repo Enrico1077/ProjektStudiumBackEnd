@@ -1,4 +1,5 @@
 from flask import jsonify
+import json
 from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app)
 from app.db import get_db
 from flask_login import login_required, current_user
@@ -47,12 +48,12 @@ def UploadData():
         else:
             try:               
                 cur.execute(                #Der SQL-Zugriff muss noch auf die Datenbank abgestimmt werden 
-                    "INSERT INTO Maschinendaten (Maschine_ID, Daten,) VALUES (%s, %s)",
-                    (maschineId, data['Hedelius_App']),
+                    "INSERT INTO Maschinendaten (Maschinen_ID, Daten) VALUES (%s, %s)",
+                    (maschineId, json.dumps(data['Hedelius_App'])),
                 )
                 db.commit()
             except Exception as e:
-                error = e
+                error = str(e)
                 
 
     cur.close()
@@ -158,7 +159,7 @@ def NewMaschine():
 
     if error is None:
         cur.execute(          
-            "INSERT INTO Maschinen (Maschinen_ID,Maschinenname, MaschinenTyp) VALUES (%s, %s, %s)",
+            "INSERT INTO Maschinen (Maschinen_ID, Maschinenname, MaschinenTyp) VALUES (%s, %s, %s)",
             (maschineID, maschineName, maschineTyp)
             )           
         db.commit()
