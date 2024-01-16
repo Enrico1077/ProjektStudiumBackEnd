@@ -113,3 +113,52 @@ def ConnectMaschine():
         return jsonify({'error':error}),400
 
         
+@bp.route('/New', methods=['POST'])
+#Fügt eine neue Maschine hinzu
+def NewMaschine():
+    try:
+        data = request.get_json()
+        adminname = data['adminname']
+        adminpassword = data['adminpassword']
+        maschineID = data['maschineID']
+        maschineName = data['maschinename']
+        maschineTyp = data['maschinetyp']
+
+    except:
+        return jsonify({'error': 'Missing Username or Password or MaschineParameters'}), 400 
+    
+    if not adminname == current_app.config['ADMIN_NAME'] :
+        return jsonify({'error': 'Adminname is wrong'}), 400 
+    
+    #Vorbereiten der Datenbank
+    db = get_db()
+    cur= db.cursor()
+    error = None 
+
+    #User mit Adminname aus der DB suchen
+    cur.execute(
+        'SELECT * FROM users WHERE username = %s', (adminname,)
+    )
+    adminuser = cur.fetchone()
+
+    #Prüfen ob Adminname und AdminPassword korrekt sind
+    if adminuser is None:
+        error = 'There is no AdminAccount.'
+    elif not check_password_hash(adminuser['password'], adminpassword):
+        error = 'Incorrect Adminpassword.'
+
+    if error is None:
+        cur.execute(          
+            "INSERT INTO Maschinen (Maschinen_ID,Maschinenname, MaschinenTyp) VALUES (%s, %s, %s)",
+            (maschineID, maschineName, maschineTyp)
+            )           
+        db.commit()
+
+     #Ausgabe
+    if error is None:
+        return jsonify({'message':'Machine was successfully added'}),200
+    else:
+        return jsonify({'error':error}),400
+
+
+
