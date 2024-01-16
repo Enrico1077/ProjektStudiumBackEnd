@@ -10,7 +10,8 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY="dev",
         SESSION_TYPE ='filesystem',
-        DB_URL = "dbname=postgres user=postgres password=Test1234 host=34.78.196.208" #local ip: 192.168.0.3
+        DB_URL = "dbname=postgres user=postgres password=Test1234 host=34.78.196.208", #local ip: 192.168.0.3
+        ADMIN_NAME ='MainAdmin'
     )
 
     login_manger = LoginManager()
@@ -45,6 +46,9 @@ def create_app(test_config=None):
 
     from . import profile
     app.register_blueprint(profile.bp)
+
+    from . import Maschine
+    app.register_blueprint (Maschine.bp)
 
     @login_manger.user_loader
     def load_user(user_id):
