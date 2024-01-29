@@ -11,7 +11,8 @@ def create_app(test_config=None):
         SECRET_KEY="dev",
         SESSION_TYPE ='filesystem',
         DB_URL = "dbname=postgres user=postgres password=Test1234 host=34.78.196.208", #local ip: 192.168.0.3
-        ADMIN_NAME ='MainAdmin'
+        ADMIN_NAME ='MainAdmin',
+        SESSION_COOKIE_HTTPONLY = False
     )
 
     login_manger = LoginManager()
