@@ -35,7 +35,7 @@ def create_app(test_config=None):
     @app.after_request              #Verhindert CORS-Fehler
     def add_headers(response):
         """ Adding some global properties to all response headers """
-        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Origin"] = "http://localhost:4200/"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Requested-With"
         response.headers["Access-Control-Allow-Credentials"] = "true"
