@@ -38,6 +38,7 @@ def create_app(test_config=None):
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Requested-With"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
         return response
     
     from . import db
