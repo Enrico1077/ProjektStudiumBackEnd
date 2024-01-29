@@ -13,7 +13,7 @@ def create_app(test_config=None):
         DB_URL = "dbname=postgres user=postgres password=Test1234 host=34.78.196.208", #local ip: 192.168.0.3
         ADMIN_NAME ='MainAdmin',
         SESSION_COOKIE_HTTPONLY = False,
-        SESSION_COOKIE_SECURE= False
+        SESSION_COOKIE_SAMESITE = 'None'
     )
 
     login_manger = LoginManager()
