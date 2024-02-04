@@ -17,7 +17,7 @@ def create_app(test_config=None):
         SESSION_COOKIE_SAMESITE = 'None',
         SESSION_COOKIE_SECURE = True,
         SESSION_COOKIE_DOMAIN = None,
-        SESSION_COOKIE_DURATION= timedelta(minutes=15)
+        SESSION_COOKIE_DURATION= "timedelta(minutes=15)"
     )
 
     login_manger = LoginManager()
