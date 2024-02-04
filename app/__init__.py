@@ -14,7 +14,8 @@ def create_app(test_config=None):
         ADMIN_NAME ='MainAdmin',
         SESSION_COOKIE_HTTPONLY = False,
         SESSION_COOKIE_SAMESITE = 'None',
-        SESSION_COOKIE_SECURE = True
+        SESSION_COOKIE_SECURE = True,
+        SESSION_COOKIE_DOMAIN = "https://localhost:4200"
     )
 
     login_manger = LoginManager()
