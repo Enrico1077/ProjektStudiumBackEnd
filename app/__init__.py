@@ -1,6 +1,7 @@
 from flask import Flask,request, jsonify, session
 from flask_session import Session
 from flask_login import LoginManager, login_required
+from time import timedelta
 import os
 
 
@@ -15,7 +16,8 @@ def create_app(test_config=None):
         SESSION_COOKIE_HTTPONLY = False,
         SESSION_COOKIE_SAMESITE = 'None',
         SESSION_COOKIE_SECURE = True,
-        SESSION_COOKIE_DOMAIN = '.localhost'
+        SESSION_COOKIE_DOMAIN = None,
+        SESSION_COOKIE_DURATION= timedelta(minutes=15)
     )
 
     login_manger = LoginManager()
