@@ -41,6 +41,7 @@ def create_app(test_config=None):
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Requested-With, Set-Cookie"
         response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Expose-Headers"] = "Set-Cookie"
         return response
     
     from . import db
