@@ -101,9 +101,8 @@ def login():
         if error is None:
             # Erstellen eines Users und hinzufügen zur Session + returns
             user = User(user['id'], username)
-            session_cookie_value = request.cookies.get('session')
-            return jsonify({'message': 'Login was successful', 'session_cookie': session_cookie_value}), 200
-
+            login_user(user)             
+            return (jsonify({'message':'Login has been sucessfull'}),200)
         else:
             return (jsonify({'error':error}),400)
 

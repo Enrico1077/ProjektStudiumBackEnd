@@ -14,8 +14,7 @@ def create_app(test_config=None):
         ADMIN_NAME ='MainAdmin',
         SESSION_COOKIE_HTTPONLY = False,
         SESSION_COOKIE_SAMESITE = 'None',
-        SESSION_COOKIE_SECURE = True,
-        SESSION_COOKIE_DOMAIN = None
+        SESSION_COOKIE_SECURE = True
     )
 
     login_manger = LoginManager()
@@ -39,9 +38,8 @@ def create_app(test_config=None):
         """ Adding some global properties to all response headers """
         response.headers["Access-Control-Allow-Origin"] = "https://localhost:4200"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Requested-With, Set-Cookie"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Requested-With"
         response.headers["Access-Control-Allow-Credentials"] = "true"
-        response.headers["Access-Control-Expose-Headers"] = "Set-Cookie"
         return response
     
     from . import db
