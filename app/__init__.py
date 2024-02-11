@@ -15,7 +15,7 @@ def create_app(test_config=None):
         SESSION_COOKIE_HTTPONLY = False,
         SESSION_COOKIE_SAMESITE = 'Lax',
         SESSION_COOKIE_SECURE = True,
-        SESSION_COOKIE_DOMAIN =  '.localhost'
+        SESSION_COOKIE_DOMAIN =  '.projektstudium.für-den-bachelor.eu'
     )
 
     login_manger = LoginManager()
@@ -37,7 +37,7 @@ def create_app(test_config=None):
     @app.after_request              #Verhindert CORS-Fehler
     def add_headers(response):
         """ Adding some global properties to all response headers """
-        response.headers["Access-Control-Allow-Origin"] = "https://localhost:4200"
+        response.headers["Access-Control-Allow-Origin"] = "https://projektstudium.xn--fr-den-bachelor-zvb.eu"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Requested-With"
         response.headers["Access-Control-Allow-Credentials"] = "true"
