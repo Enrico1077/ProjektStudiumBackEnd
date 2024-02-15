@@ -14,15 +14,20 @@ def privateTest():
 @bp.route('/getMaschines', methods=['POST'])
 @login_required
 def get_maschinen():
-    username = current_user.username
+    username=current_user.username
     
     #Vorbeiten der Datenbank
     db = get_db()
     cur= db.cursor()
 
+    cur.execute(
+        'SELECT id FROM users WHERE username = %s', (username,)
+    )
+    userID=cur.fetchone()[0]
+
     #Ausführen des SQL-Befehls
     cur.execute(
-        'SELECT Maschinen_ID FROM BenutzerMaschinen WHERE username = %s', (username,)
+        'SELECT Maschinen_ID FROM BenutzerMaschinen WHERE Benutzer_ID = %s', (userID,)
     )
     user_machines = cur.fetchall()
     #Sollten dem Nutzer keine Maschinen zugewiesen worden sein, wird das so zurückgegeben
@@ -37,4 +42,36 @@ def get_maschinen():
 
     
 
+@bp.route('/getMaschineData', methods=['POST'])
+@login_required
+def get_machine_data():
+    username = current_user.username
+
+    data = request.get_json()
+    try:
+        machine_id = data['MachineID']
+    except:
+        return jsonify({"error": "Missing argument(MachinID)"}), 400
+
+    #Überprüfen ob die Maschine dem User gehört
+    db = get_db()
+    cur = db.cursor()
+    cur.execute('''
+                SELECT * FROM BenutzerMaschinen WHERE Benutzer_ID IN (
+                            SELECT ID FROM users WHERE username = %s
+                         ) AND Maschinen_ID = %s;
+               ''', (username, machine_id))
+    result = cur.fetchone()
+    if not result:
+        return jsonify({"message": f"This Machine doesn't belong to {username}!"}), 200
     
+    #Daten der Maschine auslesen und zurückgeben
+    cur.execute(
+        'SELECT UploadTime, Daten FROM Maschinendaten WHERE Maschinen_ID = %s',(result[0],)
+    )
+    daten = cur.fetchall()
+    if not daten:
+        return (jsonify({'message':f'Die Maschine mit der ID {machine_id} hat keine Daten aufgezeichnet'})), 200
+    return(jsonify(daten),200)
+
+
