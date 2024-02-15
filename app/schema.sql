@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS Maschinen;
 DROP TABLE IF EXISTS users;  -- Hier wurde 'user' anstelle von 'Benutzer' verwendet
 
 
+
 -- Erstellung der Tabelle 'user'
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -24,6 +25,7 @@ CREATE TABLE Maschinen (
 CREATE TABLE Maschinendaten (
   MaschineData_ID SERIAL PRIMARY KEY,
   Daten JSON,
+  UploadTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   Maschinen_ID INT,
   FOREIGN KEY (Maschinen_ID) REFERENCES Maschinen(Maschinen_ID)
 );
