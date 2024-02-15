@@ -49,9 +49,9 @@ def get_machine_data():
 
     data = request.get_json()
     try:
-        machine_id = data['MachineID']
+        machine_id =  data['MachineID']
     except:
-        return jsonify({"error": "Missing argument(MachinID)"}), 400
+        return jsonify({"error": "Missing argument(MachineID)"}), 400
 
     #Überprüfen ob die Maschine dem User gehört
     db = get_db()
@@ -67,9 +67,10 @@ def get_machine_data():
     
     #Daten der Maschine auslesen und zurückgeben
     cur.execute(
-        'SELECT UploadTime, Daten FROM Maschinendaten WHERE Maschinen_ID = %s',(result[0],)
+        'SELECT UploadTime, Daten FROM Maschinendaten WHERE Maschinen_ID = %s',(machine_id,)
     )
     daten = cur.fetchall()
+    print(daten)
     if not daten:
         return (jsonify({'message':f'Die Maschine mit der ID {machine_id} hat keine Daten aufgezeichnet'})), 200
     return(jsonify(daten),200)

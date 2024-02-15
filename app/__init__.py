@@ -17,6 +17,7 @@ def create_app(test_config=None):
         SESSION_COOKIE_SECURE = True,
         SESSION_COOKIE_DOMAIN =  '.projektstudium.für-den-bachelor.eu'
         #SESSION_COOKIE_DOMAIN = '.localhost'        #For Local Use
+    
     )
 
     login_manger = LoginManager()
