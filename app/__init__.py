@@ -2,6 +2,7 @@ from flask import Flask,request, jsonify, session
 from flask_session import Session
 from flask_login import LoginManager, login_required
 import os
+from datetime import timedelta
 
 
 def create_app(test_config=None):
@@ -12,6 +13,7 @@ def create_app(test_config=None):
         SESSION_TYPE ='filesystem',
         DB_URL = "dbname=postgres user=postgres password=Test1234 host=34.78.196.208", #local ip: 192.168.0.3
         ADMIN_NAME ='MainAdmin',
+        PERMANENT_SESSION_LIFETIME = timedelta(hours=1),   
         SESSION_COOKIE_HTTPONLY = False,
         SESSION_COOKIE_SAMESITE = 'Lax',
         SESSION_COOKIE_SECURE = True,
