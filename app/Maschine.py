@@ -1,9 +1,8 @@
 from flask import jsonify
 import json
-from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app)
+from flask import Blueprint, request, current_app
 from app.db import get_db
-from flask_login import login_required, current_user
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 bp = Blueprint('Maschine', __name__, url_prefix='/Maschine')
 
 

@@ -1,8 +1,8 @@
-from flask import Flask,request, jsonify, session
-from flask_session import Session
-from flask_login import LoginManager, login_required
+from flask import Flask, request, abort
+from flask_login import LoginManager
 import os
 from datetime import timedelta
+from http import HTTPStatus
 
 
 def create_app(test_config=None):
@@ -63,6 +63,11 @@ def create_app(test_config=None):
     @login_manger.user_loader
     def load_user(user_id):
         return auth.User.getName(user_id)
+    
+    @login_manger.unauthorized_handler
+    def unauthorized():
+        abort(HTTPStatus.UNAUTHORIZED)
+        
 
 
     return app

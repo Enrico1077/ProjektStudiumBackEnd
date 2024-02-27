@@ -1,7 +1,5 @@
 from flask import jsonify
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
-)
+from flask import Blueprint, request
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.db import get_db
 from flask_login import UserMixin, login_user
@@ -17,9 +15,6 @@ class User(UserMixin):
         username = cur.fetchone()[0]
         return User(user_id, username)
     
-
-
-
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
