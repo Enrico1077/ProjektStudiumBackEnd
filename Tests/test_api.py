@@ -31,17 +31,17 @@ def test_login(client):
     response = client.post("/auth/login")
     assert response.status_code == 400
 
-#def test_Upload(client):
-#    response = client.post("/Maschine/Upload")
-#    assert response.status_code == 400
+def test_Upload(client):
+    response = client.post("/Maschine/Upload")
+    assert response.status_code == 415
 
 def test_Upload(client):
     response = client.post("/Maschine/ConnectMaschine")
-    assert response.status_code == 400
+    assert response.status_code == 415
 
 def test_Upload(client):
     response = client.post("/Maschine/New")
-    assert response.status_code == 400
+    assert response.status_code == 415
 
 def test_test(client):
     response = client.post("/profile/test")
