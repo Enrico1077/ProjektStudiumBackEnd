@@ -31,9 +31,9 @@ def test_login(client):
     response = client.post("/auth/login")
     assert response.status_code == 400
 
-def test_Upload(client):
-    response = client.post("/Maschine/Upload")
-    assert response.status_code == 400
+#def test_Upload(client):
+#    response = client.post("/Maschine/Upload")
+#    assert response.status_code == 400
 
 def test_Upload(client):
     response = client.post("/Maschine/ConnectMaschine")
