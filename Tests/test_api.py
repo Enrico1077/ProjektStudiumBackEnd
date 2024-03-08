@@ -20,6 +20,37 @@ def client(app):
 resources = Path(__file__).parent / "resources"
 
 def test_hello(client):
-    """this procedure tests the Test-API /hello"""
     response = client.get("/hello")
     assert response.status_code == 200
+
+def test_register(client):
+    response = client.post("/auth/register")
+    assert response.status_code == 400
+
+def test_login(client):
+    response = client.post("/auth/login")
+    assert response.status_code == 400
+
+def test_Upload(client):
+    response = client.post("/Maschine/Upload")
+    assert response.status_code == 400
+
+def test_Upload(client):
+    response = client.post("/Maschine/ConnectMaschine")
+    assert response.status_code == 400
+
+def test_Upload(client):
+    response = client.post("/Maschine/New")
+    assert response.status_code == 400
+
+def test_test(client):
+    response = client.post("/profile/test")
+    assert response.status_code == 401
+
+def test_test(client):
+    response = client.post("/profile/getMaschines")
+    assert response.status_code == 401
+
+def test_test(client):
+    response = client.post("/profile/getMaschineData")
+    assert response.status_code == 401
