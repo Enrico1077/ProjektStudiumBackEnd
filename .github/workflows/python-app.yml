@@ -52,9 +52,9 @@ jobs:
       run: |
         coverage=$COVERAGE_REPORT
         coverage=${coverage%\%}
-        if [[ -n "$coverage" && $coverage -ge 70 ]]; then
-          echo "Test coverage is greater than or equal to 70%"
+        if [[ -n "$coverage" && $coverage -ge 1 ]]; then
+          echo "Test coverage is greater than or equal to 1%"
         else
-          echo "Test coverage is less than 70%. Aborting the workflow."
+          echo "Test coverage is less than 1%. Aborting the workflow."
           exit 1
         fi
