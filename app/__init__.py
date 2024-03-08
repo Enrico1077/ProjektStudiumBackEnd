@@ -67,6 +67,10 @@ def create_app(test_config=None):
     @login_manger.unauthorized_handler
     def unauthorized():
         abort(HTTPStatus.UNAUTHORIZED)
+
+    @app.route('/hello', methods=['GET']) #Route zum Testen ob der Dienst online ist
+    def hello():
+        return "I am here ;D" , 200
         
 
 

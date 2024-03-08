@@ -3,4 +3,5 @@ flask_session
 waitress
 psycopg2
 flask_login
+pytest
 
